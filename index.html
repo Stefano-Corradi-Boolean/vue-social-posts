@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Posts</title>
+
+    <!-- Vue  -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script src="https://kit.fontawesome.com/1e3be9b4ce.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="app">
+        <h1 class="main-title">Social Posts</h1>
+
+        <div id="container" class="posts-list">
+            
+            <!-- post -->
+            <div
+              v-for="post in posts"
+              class="post"
+            >
+                <div class="post__header">
+                    <div class="post-meta">                    
+                        <div class="post-meta__icon">
+                            <img
+                              v-if="post.author.image"
+                              src="https://unsplash.it/300/300?image=15"
+                              :alt="post.author.name"
+                              class="profile-pic"
+                            >     
+                            <div
+                              v-else
+                              class="profile-pic-default"
+                            >
+                                <span>{{ getProfileInitials(post.author.name) }}</span>
+                            </div>              
+                        </div>
+                        <div class="post-meta__data">
+                            <div class="post-meta__author">{{ post.author.name }}</div>
+                            <!-- far notare che logiche di presentazione di questo tipo le si possono mettere direttamente qui alleggerendo il JS  -->
+                            <div class="post-meta__time">
+                                {{post.created.split('-').reverse().join('/')}}
+                            </div>
+                        </div>                    
+                    </div>
+                </div>
+                <div class="post__text">{{ post.content }}</div>
+                <div class="post__image">
+                    <img :src="post.media" alt="">
+                </div>
+                <div class="post__footer">
+                    <div class="likes js-likes">
+                        <div class="likes__cta">
+                            <!-- far notare @click.prevent per inibire il tag a -->
+                            <a
+                              class="like-button  js-like-button "
+                              :class="{'like-button--liked': userLiked.includes(post.id)}"
+                              data-postid="1"
+                              href="#"
+                              @click.prevent="toggleLike(post)"
+                            >
+                                <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
+                                <span class="like-button__label">Mi Piace</span>
+                            </a>
+                        </div>
+                        <div class="likes__counter">
+                            Piace a <b id="like-counter-1" class="js-likes-counter">{{ post.likes }}</b> persone
+                        </div>
+                    </div> 
+                </div>            
+            </div>
+             <!-- /post -->
+
+        </div>
+    </div>
+    
+    
+    <script type="module" src="js/main.js"></script>
+    
+</body>
+</html>
